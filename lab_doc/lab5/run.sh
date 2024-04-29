@@ -3,6 +3,10 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+# Give docker permission
+sudo chmod 666 /var/run/docker.sock
+
+
 # Create a Docker volume for data persistence
 echo "Creating Docker volume: homework1-heart-disease"
 docker volume create --name homework1-heart-disease
