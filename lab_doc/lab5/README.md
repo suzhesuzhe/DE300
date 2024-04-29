@@ -12,7 +12,7 @@ The purpose of this lab is to show you the proper way to organize files in a hom
    
    - run.sh -- the bash file contains all comands that (1) create the docker volume(this is a space for keeping database existed even you delete the database container) (2) create docker network that connects the database container and your analysis container (3)build the image for the database container (4) build the image for the analysis container (5)run the database container (5)run the analysis container
    
-   - src -- the folder that contains source files and staging data. (if you see the ./dockerfiles/dockerfile-jupyter, you can see this folder is synchronized with path /app/src in the container). 
+   - src -- the folder that contains source files and staging data. (Check the dockerfile ./dockerfiles/dockerfile-jupyter, you can see this folder is synchronized with path /app/src in the container)
    
 
 ## Instruction for deploying: (please write this section for you future homework/lab submission on behalf of the grading)
