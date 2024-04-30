@@ -9,7 +9,7 @@ sudo chmod 666 /var/run/docker.sock
 
 # Create a Docker volume for data persistence
 echo "Creating Docker volume: homework1-heart-disease"
-docker volume create --name homework1-heart-disease
+docker volume create --name car-database
 
 # Create a Docker network for container communication
 echo "Creating Docker network: etl-database"
@@ -27,7 +27,7 @@ docker build -f dockerfiles/dockerfile-jupyter -t jupyter-image .
 echo "Starting PostgreSQL container"
 docker run -d --network etl-database \
 	   --name postgres-container \
-           -v homework1-heart-disease:/var/lib/postgresql/data \
+           -v car-database:/var/lib/postgresql/data \
            -p 5432:5432 \
 	   postgresql-image
 
