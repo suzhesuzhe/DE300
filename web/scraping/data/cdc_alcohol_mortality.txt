@@ -1,0 +1,4 @@
+Number of alcoholic liver disease deaths: 33,098
+Alcoholic liver disease deaths per 100,000 population: 10.0
+Number of alcohol-induced deaths, excluding accidents and homicides: 54,258
+Alcohol-induced deaths, excluding accidents and homicides per 100,000 population: 16.3
