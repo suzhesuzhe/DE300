@@ -1,6 +1,6 @@
 ### Data source
 
-https://archive.ics.uci.edu/ml/datasets/Adult
+https://archive.ics.uci.edu/ml/datasets/Adult or copy it to your ec2 from 's3://de300spring2024/robert_su/lab6/data.csv'
 
 ### Feature
 
