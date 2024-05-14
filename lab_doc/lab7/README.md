@@ -1,10 +1,13 @@
-# Lab 6 Assignment
+# Lab 7 Assignment
 
-## Word Count
-1 Save only the words that have count greater or equal to 3.
+## Machine learning with Spark
 
-## Spark-sql
-1, Add one more cell in ./spark-sql/pyspark-sql.ipynb that select rows with 'age' between 30 and 50 (inclusive) and transforms the selected pyspark dataframe into pandas dataframe and print out the summary statistics using 'describe()'.
+1 In the jupyter notebook 'ml_pyspark.ipynb', the PairwiseProduct step in the pipeline adds the cross product of any two numerical features to the dataframe. (e.g, if there are three variables a,b,c, then the PairwiseProduct step adds cross products a*b, a*c, b*c). In this part, you are required to also add the squared of numerical features to the dataframe (following the last example, you want to add a^2, b^2, c^2 to the dataframe). You are required to create a new Transofomer class for this purpose and add it into the pipeline.
 
-2, Wrap all functions in the ./spark-sql/pyspark-sql.ipynb notebook into a .py file and write a run-py-spark.sh file (similar to the one in the word-counts folder). \
-When you run 'bash run-py-spark.sh', the .py file should be executed with Spark (i.e including the steps of data reading data, data cleaning, data Transformation, but without the step in task 1 above), and the final dataframe should be stored as .csv file in the './data' folder.
+2 The Cross Validation selects the maximum tree depth for the random forest model. There are many other hyper-parameters for the random forest, search what they are and choose one such hyperparameter and its reasonble values to add into your ParameterGrid. 
+
+3 Wrap all the functions you have into a python script (including the modification you have made to 1,2 above), and write a .sh file to execute the python script with spark. 
+
+4 The python script should print out the new AUC ROC, Report and analyze what you found (compared to w.o modification of 1,2 above)
+
+
