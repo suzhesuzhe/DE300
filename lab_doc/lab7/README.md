@@ -8,6 +8,6 @@
 
 3 Wrap all the functions you have into a python script (including the modification you have made to 1,2 above), and write a .sh file to execute the python script with spark. 
 
-4 The python script should print out the new AUC ROC, Report and analyze what you found (compared to w.o modification of 1,2 above)
+4 The python script should print out the new AUC ROC, Report and analyze what you find (compared to w.o modification of 1,2 above)
 
 
