@@ -18,16 +18,17 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Create a virtual environment for the project
-RUN python3 -m venv demos
+RUN python3 -m venv /tmp/demos
 
 # Set environment variables to activate the virtual environment
 ENV PATH="/tmp/demos/bin:$PATH"
 
-# Install necessary Python packages separately
-RUN pip install numpy
-RUN pip install pyspark==3.4.0
-RUN pip install jupyter
-RUN pip install venv-pack
+# Activate the virtual environment and install necessary Python packages
+RUN /bin/bash -c "source demos/bin/activate && \
+    pip install numpy venv-pack jupyter && \
+    pip install pyspark==3.4.0 && \
+    pip install jupyter && \
+    demos/bin/venv-pack -o demos.tar.gz"
 
 # Clean up unnecessary files and reset DEBIAN_FRONTEND
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
