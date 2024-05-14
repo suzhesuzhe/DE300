@@ -1,1 +1,4 @@
-docker run -v /Users/d-klabjan/Northwestern-University/Collection/Courses/Demos/data-engineering/spark/ml:/tmp/ml -it apache/spark-py-data-science /bin/bash
+docker run -v /home/ubuntu/Documents/DE300/lab_doc/lab7/ml:/tmp/ml -it \
+           -p 8888:8888 \
+           --name spark-sql-container \
+	   pyspark-image
