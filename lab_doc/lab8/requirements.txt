@@ -1,7 +1,7 @@
 # Apache Airflow providers and extras
 psycopg2-binary
 sqlalchemy
-pandas
+pandas==2.1.4
 scikit-learn
 tomli
 pyarrow
