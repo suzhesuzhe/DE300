@@ -14,7 +14,7 @@ import pathlib
 from sqlalchemy import create_engine
 
 # read the parameters from toml
-CONFIG_FIIE = "s3://de300spring2024-airflow//config.toml"  # Example S3 path
+CONFIG_FILE = "s3://de300spring2024-airflow//config.toml"  # Example S3 path
 
 
 TABLE_NAMES = {
@@ -38,12 +38,11 @@ default_args = {
 }
 
 
-CONFIG_FIIE = "s3://de300spring2024-airflow//config.toml"  # Example S3 path
 
 def read_config_from_s3() -> dict:
     # Parse the bucket name and file key from the S3 path
     bucket_name = CONFIG_FILE.split('/')[2]
-    key = '/'.join(CONFIG_FILE.split('/')[3:])
+    key = '/'.join(CONFIG_FILE.split('/')[3:])[1:]
 
     # Create a boto3 S3 client
     s3_client = boto3.client('s3')
@@ -67,14 +66,9 @@ def create_db_connection():
     """
     Create a database connection to the PostgreSQL RDS instance using SQLAlchemy.
     """
-    # Fetch the connection using the connection ID you configured
-    conn = BaseHook.get_connection(PARAMS['db']['db_conn_id'])  # Use the Conn Id you set in Airflow UI or as an env variable
+   
+    conn_uri = f"{PARAMS['db']['db_alchemy_driver']}://{PARAMS['db']['username']}:{PARAMS['db']['password']}@{PARAMS['db']['host']}:{PARAMS['db']['port']}/{PARAMS['db']['db_name']}"
 
-    # Get the URI from the connection
-    conn_uri = conn.get_uri()
-
-    # Replace prefix if necessary (specific to how SQLAlchemy expects the URI)
-    conn_uri = conn_uri.replace('postgres://', 'postgresql+psycopg2://')
 
     # Create a SQLAlchemy engine and connect
     engine = create_engine(conn_uri)
@@ -531,22 +525,22 @@ drop_tables = PostgresOperator(
     sql=f"""
     DROP SCHEMA public CASCADE;
     CREATE SCHEMA public;
-    GRANT ALL ON SCHEMA public TO postgres;
+    GRANT ALL ON SCHEMA public TO {PARAMS['db']['username']};
     GRANT ALL ON SCHEMA public TO public;
     COMMENT ON SCHEMA public IS 'standard public schema';
     """,
     dag=dag
 )
 
-download_data = SFTPOperator(
-        task_id="download_data",
-        ssh_hook = SSHHook(ssh_conn_id=PARAMS['files']['sftp_connection']),
-        remote_filepath=PARAMS['files']['remote_file'], 
-        local_filepath=PARAMS['files']['local_file'],
-        operation="get",
-        create_intermediate_dirs=True,
-        dag=dag
-    )
+#download_data = SFTPOperator(
+#        task_id="download_data",
+#        ssh_hook = SSHHook(ssh_conn_id=PARAMS['files']['sftp_connection']),
+#        remote_filepath=PARAMS['files']['remote_file'], 
+#        local_filepath=PARAMS['files']['local_file'],
+#        operation="get",
+#        create_intermediate_dirs=True,
+#        dag=dag
+#    )
 
 add_data_to_table = PythonOperator(
     task_id='add_data_to_table',
@@ -633,7 +627,7 @@ for feature_type in feature_operations:
         dag=dag
     ))
 
-[drop_tables, download_data] >> add_data_to_table >> clean_data >> normalize_data
+drop_tables >> add_data_to_table >> clean_data >> normalize_data
 clean_data >> eda
 normalize_data >> [fe_max, fe_product]
 fe_product >> product_train

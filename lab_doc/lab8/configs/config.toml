@@ -4,9 +4,14 @@ sequential_queue = "sequential"
 default_queue = "general"
 
 [db]
-db_name = “airflow-classify”
-db_conn_id = "AIRFLOW_CONN_AWS_RDS_POSTGRES"
-db_connection = "postgresql+psycopg2://robert_su:12341234@rds_endpoint:5432/airflow-classify"
+db_identifier = "airflow-classify"
+db_connection = "AIRFLOW_CONN_AWS_RDS_POSTGRES"
+username = 'robert_su'
+password = '12341234'
+host = 'airflow-classify.cvwhaidrmrqj.us-east-2.rds.amazonaws.com'
+port = '5432'  # Default port for PostgreSQL
+default_db = 'postgres'  # Default database you can connect to
+db_name = 'demo_wine'
 db_alchemy_driver = "postgresql+psycopg2"
 
 [files]
@@ -17,7 +22,7 @@ s3_file_key = "wine.csv"
 [ml]
 train_test_ratio = 0.2
 outliers_std_factor = 3
-labels = "quality"
+labels = "Wine"
 tolerance = 0.01
 perturbation_std = 1.2
 max_perturbation_iterations = 50
